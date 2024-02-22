@@ -2,31 +2,35 @@
  *
  */
 
-import java.util.InputMismatchException
-import java.util.Scanner
+import java.text.NumberFormat
+import java.util.*
+
 
 fun main(args: Array<String>) {
-    println("* * * Calculator * * *")
-    println("Menu\n1. Tip Calculator\n2. Basic Arithmetic")
-
     val reader = Scanner(System.`in`)
     var valid = false
 
     while(!valid) {
         try {
-            print(" -> ")
+            println("\n* * * Calculator * * *")
+            println("Menu\n1. Tip Calculator\n2. Basic Arithmetic\n3. Quit")
+            print("Your Selection: ")
             var choice:Int = reader.nextInt()
 
             when (choice) {
                 1 -> {
-                    tipCalculator()
-                    valid = true
+                    tipCalculator(reader)
                 }
 
                 2 -> {
-                    arithmeticCalculator()
+                    arithmeticCalculator(reader)
+                }
+
+                3 -> {
+                    println("Thank you for using our services! Goodbye.")
                     valid = true
                 }
+
                 else -> {
                     print("That is not a valid menu selection. Please try again.")
                 }
@@ -38,10 +42,60 @@ fun main(args: Array<String>) {
     }
 }
 
-fun tipCalculator() {
+fun tipCalculator(reader: Scanner): Unit {
+    println("\n* Welcome to Tip Calculator *")
 
+    var numPeople: Int
+    var totalBill: Float
+    var tipPercentage: Float
+
+    try {
+        print("Enter the number of people in your party: ")
+        numPeople = reader.nextInt()
+        if (numPeople <= 0) {
+            println("Number of people must be a positive integer. Please try again.")
+            return
+        }
+
+        print("Enter the total bill: $")
+        totalBill = reader.nextFloat()
+        if (totalBill <= 0) {
+            println("Total bill must be a positive number. Please try again.")
+            return
+        }
+
+        print("Enter tip percentage: ")
+        tipPercentage = reader.nextFloat()
+        if (tipPercentage < 0 || tipPercentage > 100) {
+            println("Tip percentage must be between 0 and 100. Please try again.")
+            return
+        }
+    } catch (e: InputMismatchException) {
+        println("Invalid input. Please enter a valid number.")
+        reader.nextLine()
+        return
+    }
+
+    val calculate: Float = (totalBill / numPeople) * (tipPercentage / 100)
+    val newTotal: Float = (calculate * numPeople) + totalBill
+
+    val COUNTRY: String = "US"
+    val LANGUAGE: String = "en"
+    val calculateStr: String = NumberFormat.getCurrencyInstance(Locale(LANGUAGE, COUNTRY)).format(calculate)
+    val newTotalStr: String = NumberFormat.getCurrencyInstance(Locale(LANGUAGE, COUNTRY)).format(newTotal)
+
+    print("Calculating ")
+    Thread.sleep(500)
+    print(". ")
+    Thread.sleep(500)
+    print(". ")
+    Thread.sleep(500)
+    print(". ")
+    Thread.sleep(500)
+
+    println("\nEach person in your party of $numPeople owes $calculateStr for a new bill total of $newTotalStr.")
 }
 
-fun arithmeticCalculator() {
-
+fun arithmeticCalculator(reader:Scanner) {
+    println("* Welcome to Arithmetic Calculator *")
 }
