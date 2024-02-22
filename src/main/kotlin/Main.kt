@@ -4,6 +4,7 @@
 
 import java.text.NumberFormat
 import java.util.*
+import kotlin.math.pow
 
 
 fun main(args: Array<String>) {
@@ -96,6 +97,66 @@ fun tipCalculator(reader: Scanner): Unit {
     println("\nEach person in your party of $numPeople owes $calculateStr for a new bill total of $newTotalStr.")
 }
 
-fun arithmeticCalculator(reader:Scanner) {
+fun arithmeticCalculator(reader: Scanner) {
     println("* Welcome to Arithmetic Calculator *")
+
+    var numOne: Float
+    var numTwo: Float
+    var operation: Char
+
+    try {
+        print("Enter the first number to calculate: ")
+        numOne = reader.nextFloat()
+
+        print("Enter the second number to calculate: ")
+        numTwo = reader.nextFloat()
+
+        print("Enter the operation to use (*+-/^): ")
+        operation = reader.next().single()
+    } catch (e: InputMismatchException) {
+        println("Invalid input. Please enter a valid number.")
+        reader.nextLine()
+        return
+    }
+
+    val answer: Float
+
+    when(operation) {
+        '+' -> {
+            answer = numOne + numTwo
+        }
+
+        '-' -> {
+            answer = numOne - numTwo
+        }
+
+        '*' -> {
+            answer = numOne * numTwo
+        }
+
+        '/' -> {
+            answer = numOne / numTwo
+        }
+
+        '^' -> {
+            answer = numOne.toDouble().pow(numTwo.toDouble()).toFloat()
+        }
+
+        else -> {
+            println("Operation selected is not valid. Please try again.")
+            return // Return here to avoid printing the result when operation is invalid
+        }
+    }
+
+    print("Calculating ")
+    Thread.sleep(500)
+    print(". ")
+    Thread.sleep(500)
+    print(". ")
+    Thread.sleep(500)
+    print(". ")
+    Thread.sleep(500)
+
+    // Print the result after the "Calculating..." message
+    println("The answer to $numOne $operation $numTwo is $answer.")
 }
